@@ -33,31 +33,51 @@ def cipherer(data, func):
 
 def additive_cipher(data, key, alph=string.ascii_uppercase, reverse=False):
     a_len = len(alph)
-    if reverse:
-        func = lambda c: alph[(a_len + alph.find(c) - key) % a_len] if alph.find(c) != -1 else c
-    else:
+    data = data.upper()
+    if not reverse:
         func = lambda c: alph[(alph.find(c) + key) % a_len] if alph.find(c) != -1 else c
-    return cipherer(data.upper(), func)
-
+        return cipherer(data, func)
+    else:
+        result = []
+        for key in xrange(1, len(alph) + 1):
+            func = lambda c: alph[(a_len + alph.find(c) - key) % a_len] if alph.find(c) != -1 else c
+            result.append((key, cipherer(data, func), ) )
+        return result
 
 def multiply_cipher(data, key, alph=string.ascii_uppercase, reverse=False):
     a_len = len(alph)
-    inv_key1 = find_inverted(key, a_len)
-    if reverse:
-        func = lambda c: alph[(alph.find(c) * inv_key1) % a_len] if alph.find(c) != -1 else c
-    else:
+    if not reverse:
         func = lambda c: alph[(alph.find(c)*key) % a_len] if alph.find(c) != -1 else c
-    return cipherer(data.upper(), func)
+        return cipherer(data.upper(), func)
+    else:
+        result = []
+        for key in xrange(1, len(alph) + 1):
+            try:
+                inv_key1 = find_inverted(key, a_len)
+            except:
+                continue
+            func = lambda c: alph[(alph.find(c) * inv_key1) % a_len] if alph.find(c) != -1 else c
+            result.append((key, cipherer(data, func), ) )
+        return result
 
 
 def affine_cipher(data, key1, key2, alph=string.ascii_uppercase, reverse=False):
     a_len = len(alph)
-    inv_key1 = find_inverted(key1, a_len)
-    if reverse:
-        func = lambda c: alph[(inv_key1 * (alph.find(c) - key2)) % a_len] if alph.find(c) != -1 else c
-    else:
+    data = data.upper()
+    if not reverse:
         func = lambda c: alph[(alph.find(c)*key1 + key2) % a_len] if alph.find(c) != -1 else c
-    return cipherer(data.upper(), func)
+        return cipherer(data, func)
+    else:
+        result = []
+        for key1 in xrange(1, len(alph) + 1):
+            try:
+                inv_key1 = find_inverted(key1, a_len)
+            except:
+                continue
+            for key2 in xrange(1, len(alph) + 1):
+                func = lambda c: alph[(inv_key1 * (alph.find(c) - key2)) % a_len] if alph.find(c) != -1 else c
+                result.append( (key1, key2, cipherer(data, func)) )
+        return result
 
 
 def main():
