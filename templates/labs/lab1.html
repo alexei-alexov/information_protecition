@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Лабораторна робота №1. Шифри заміни.{% endblock title %}
+{% block content %}
+<div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s4"><a class="active" href="#additive">Адитивний</a></li>
+        <li class="tab col s4"><a href="#mult">Мультиплікативний</a></li>
+        <li class="tab col s4"><a href="#affine">Аффінний</a></li>
+      </ul>
+    </div>
+    <div id="additive" class="col s12">
+        <div class="row">
+            <div class="col s6">
+                <p
+            </div>
+            <div class="col s6">
+            </div>
+        </div>
+    </div>
+    <div id="mult" class="col s12">
+        
+    </div>
+    <div id="affine" class="col s12">
+
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    $('ul.tabs').tabs();
+});
+</script>
+
+
+{% endblock content %}

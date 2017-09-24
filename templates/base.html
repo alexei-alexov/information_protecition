@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta coding="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>{% block title %}Захист інформації {% endblock title %}</title>
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/materialize.min.js"></script>
+        <link href="/static/css/materialize.min.css" rel="stylesheet"/>
+        <link href="/static/css/style.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <ul id="lab-dropdown" class="dropdown-content">
+            <li><a href="/lab/1">Лабораторна №1</a></li>
+            <li><a href="/lab/2">Лабораторна №2</a></li>
+            <li><a href="/lab/3">Лабораторна №3</a></li>
+        </ul>
+        <nav>
+            <div class="nav-wrapper">
+            <ul id="nav-mobile" class="left hide-on-med-and-down">
+                <li><a href="/">Захист інформації</a></li>
+                <li>
+                <a class="dropdown-button"
+                    href="#!" data-activates="lab-dropdown">
+                    Лабораторні роботи
+                </a>
+                </li>                
+            </ul>
+            </div>
+        </nav>
+        <div class="container">
+            {% block content %}Упс, німа контенту. :( {% endblock content %}
+        </div>
+    </body>
+</html>
