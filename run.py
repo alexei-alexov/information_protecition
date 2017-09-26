@@ -5,7 +5,7 @@ It have menu.
 """
 from flask import Flask, request, render_template
 
-from ciphers import additive_cipher, multiply_cipher, affine_cipher
+from ciphers import additive_cipher, multiply_cipher, affine_cipher, Playfair, Foursquare
 
 
 PATH_ROOT = "/"
@@ -39,6 +39,26 @@ PARAMS = (
     ("raffine_result", None),
 )
 
+PARAMS_2 = (
+    ("plaifair_key", None),
+    ("playfair_data", "TEST STRING"),
+    ("playfair_result", None),
+
+    ("rplaifair_key", None),
+    ("rplayfair_data", "TEST STRING"),
+    ("rplayfair_result", None),
+
+    ("foursquare_key1", None),
+    ("foursquare_key2", None),
+    ("foursquare_data", "TEST STRING"),
+    ("foursquare_result", None),
+
+    ("rfoursquare_data", "TEST STRING"),
+    ("rfoursquare_key1", None),
+    ("rfoursquare_key2", None),
+    ("rfoursquare_result", None),
+)
+
 
 app = Flask(__name__)
 
@@ -57,7 +77,6 @@ def lab1_page():
 
     if request.method == 'POST':
         try:
-            print default_context['last_action']
             if default_context['last_action'] == 'additive':
                 default_context['additive_result'] = additive_cipher(
                     default_context['additive_data'],
@@ -91,7 +110,7 @@ def lab1_page():
                     2,
                     reverse=True)
         except Exception, err:
-            print err
+            print(err)
     return render_template('labs/lab1.html', **default_context)
 
 
@@ -99,6 +118,34 @@ def lab1_page():
 def lab2_page():
     
     context = {}
+    default_context['last_action'] = request.form.get("action", "playfair")
+    for param in PARAMS:
+        default_context[param[0]] = request.form.get(param[0], param[1])
+
+    if request.method == 'POST':
+        try:
+            if default_context['last_action'] == 'playfair':
+                default_context['additive_result'] = additive_cipher(
+                    default_context['additive_data'],
+                    int(default_context['additive_key']),
+                    reverse=False)
+            elif default_context['last_action'] == 'rplayfair':
+                default_context['radditive_result'] = additive_cipher(
+                    default_context['radditive_data'],
+                    1,
+                    reverse=True)
+            elif default_context['last_action'] == 'foursquare':
+                default_context['foursquare_result'] = multiply_cipher(
+                    default_context['foursquare_data'],
+                    int(default_context['foursquare_key']),
+                    reverse=False)
+            elif default_context['last_action'] == 'rfoursquare':
+                default_context['rfoursquare_result'] = multiply_cipher(
+                    default_context['rfoursquare_data'],
+                    1,
+                    reverse=True)
+        except Exception, err:
+            print(err)
 
     return render_template("labs/lab2.html", **context)
 

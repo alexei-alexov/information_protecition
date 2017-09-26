@@ -7,4 +7,143 @@
     <h3>Шифр Плейфера та подвійного квадрата</h3>
     </center>
 </div>
+<div class="row">
+    <div class="col s12">
+        <ul class="tabs">
+            <li class="tab col s4"><a {% if last_action == "playfair" or last_action == "rplayfair" %}class="active"{% endif%} href="#playfair">Плейфейр</a></li>
+            <li class="tab col s4"><a {% if last_action == "foursquare" or last_action == "rfoursquare" %}class="active"{% endif%} href="#foursquare">Подвійний квадрат</a></li>
+        </ul>
+    </div>
+    <div id="playfair" class="col s12">
+        <div class="row">
+            <div class="col s6 amber lighten-5">
+                <h5 class="center-align">Зашифровування</h5>
+                <form method="POST">
+                    <div class="input-field col s12">
+                        <input id="playfair-key" step="1"
+                            name="playfair_key" type="number" class="validate"
+                            value="{{playfair_key}}">
+                        <label for="add-key">Ключ</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <textarea id="add-data" name="playfair_data" class="materialize-textarea validate">{{playfair_data}}</textarea>
+                        <label for="add-data">Текст для шифрування</label>
+                    </div>
+                    <input type="hidden" name="action" value="playfair">
+                    <center>
+                        <input type="submit" class="waves-effect waves-light btn" value="Зашифрувати"/>
+                    </center>
+                </form>
+                {% if playfair_result %}
+                <hr>
+                <div class="row">
+                    <br>
+                    <div class="col s12">
+                        <center>Результат:</center>
+                        <p>{{playfair_result}}</p>
+                    </div>
+                    
+                </div>
+                {% endif %}
+            </div>
+            <div class="col s6 lime lighten-5">
+                <h5 class="center-align">Розшифровування</h5>
+                <form method="POST">
+                <div class="input-field col s12">
+                    <textarea id="radd-data" name="rplayfair_data" class="materialize-textarea validate">{{rplayfair_data}}</textarea>
+                    <label for="radd-data">Текст для розшифрування</label>
+                </div>
+                <input type="hidden" name="action" value="rplayfair">
+                <center>
+                    <input type="submit" class="waves-effect waves-light btn" value="Розшифрувати"/>
+                </center>
+                </form>
+                {% if rplayfair_result %}
+                <hr>
+                <div class="row">
+                    <br>
+                    <div class="col s12">
+                        <center>Результат:</center>
+                    </div>
+                    <div class="col s12">
+                        {% for result in rplayfair_result %}
+                        <div class="col s12">
+                            <p>Ключ: {{result.0}}</p>
+                            <p>Результат: {{result.1}}</p>
+                        </div>
+                        <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+    <div id="foursquare" class="col s12">
+        <div class="row">
+            <div class="col s6 amber lighten-5">
+                <h5 class="center-align">Зашифровування</h5>
+                <form method="POST">
+                    <div class="input-field col s12">
+                        <input id="foursquare-key" step="1"
+                            name="foursquare_key" type="number" class="validate"
+                            value="{{foursquare_key}}">
+                        <label for="foursquare-key">Ключ</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <textarea id="foursquare-data" name="foursquare_data" class="materialize-textarea validate">{{foursquare_data}}</textarea>
+                        <label for="foursquare-data">Текст для шифрування</label>
+                    </div>
+                    <input type="hidden" name="action" value="foursquare">
+                    <center>
+                        <input type="submit" class="waves-effect waves-light btn" value="Зашифрувати"/>
+                    </center>
+                </form>
+                {% if foursquare_result %}
+                <hr>
+                <div class="row">
+                    <br>
+                    <div class="col s12">
+                        <center>Результат:</center>
+                        <p>{{foursquare_result}}</p>
+                    </div>
+                    
+                </div>
+                {% endif %}
+            </div>
+            <div class="col s6 lime lighten-5">
+                <h5 class="center-align">Розшифровування</h5>
+                <form method="POST">
+                <div class="input-field col s12">
+                    <textarea id="rfoursquare-data" name="rfoursquare_data" class="materialize-textarea validate">{{rfoursquare_data}}</textarea>
+                    <label for="rfoursquare-data">Текст для розшифрування</label>
+                </div>
+                <input type="hidden" name="action" value="rfoursquare">
+                <center>
+                    <input type="submit" class="waves-effect waves-light btn" value="Розшифрувати"/>
+                </center>
+                </form>
+                {% if rfoursquare_result %}
+                <hr>
+                <div class="row">
+                    <br>
+                    <div class="col s12">
+                        <center>Результат:</center>
+                    </div>
+                    <div class="col s12">
+                        {% for result in rfoursquare_result %}
+                        <div class="col s12">
+                            <p>Ключ: {{result.0}}</p>
+                            <p>Результат: {{result.1}}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
