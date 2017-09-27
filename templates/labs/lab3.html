@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Лабораторна робота №3. Шифр Віженера.{% endblock title %}
+{% block content %}
+<div class="row">
+    <center>
+    <h2>Лабораторна робота №3</h2>
+    <h3>Шифр Віженера</h3>
+    </center>
+</div>
+<div class="row">
+    <div id="vigenere" class="col s12">
+        <div class="row">
+            <div class="col s6 amber lighten-5">
+                <h5 class="center-align">Зашифровування</h5>
+                <form method="POST">
+                    <div class="input-field col s12">
+                        <input id="vigenere-key" step="1"
+                            name="vigenere_key" type="text" class="validate"
+                            value="{{vigenere_key}}">
+                        <label for="vigenere-key">Ключ</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="vigenere-alph" step="1"
+                            name="vigenere_alph" type="text" class="validate"
+                            value="{{vigenere_alph}}">
+                        <label for="vigenere-alph">Алфавіт</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <textarea id="vigenere-data" name="vigenere_data" class="materialize-textarea validate">{{vigenere_data}}</textarea>
+                        <label for="vigenere-data">Текст для шифрування</label>
+                    </div>
+                    <input type="hidden" name="action" value="vigenere">
+                    <center>
+                        <input type="submit" class="waves-effect waves-light btn" value="Зашифрувати"/>
+                    </center>
+                </form>
+                {% if vigenere_result %}
+                <hr>
+                <div class="row">
+                    <br>
+                    <div class="col s12">
+                        <center>Результат:</center>
+                        <p>{{vigenere_result}}</p>
+                    </div>
+                    
+                </div>
+                {% endif %}
+            </div>
+            <div class="col s6 lime lighten-5">
+                <h5 class="center-align">Розшифровування</h5>
+                <form method="POST">
+                <div class="input-field col s12">
+                    <input id="rvigenere-key" step="1"
+                        name="rvigenere_key" type="text" class="validate"
+                        value="{{rvigenere_key}}">
+                    <label for="rvigenere-key">Ключ</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="vigenere-alph" step="1"
+                        name="vigenere_alph" type="text" class="validate"
+                        value="{{vigenere_alph}}">
+                    <label for="vigenere-alph">Алфавіт</label>
+                </div>
+                <div class="input-field col s12">
+                    <textarea id="rvigenere-data" name="rvigenere_data" class="materialize-textarea validate">{{rvigenere_data}}</textarea>
+                    <label for="rvigenere-data">Текст для розшифрування</label>
+                </div>
+                <input type="hidden" name="action" value="rvigenere">
+                <center>
+                    <input type="submit" class="waves-effect waves-light btn" value="Розшифрувати"/>
+                </center>
+                </form>
+                {% if rvigenere_result %}
+                <hr>
+                <div class="row">
+                    <br>
+                    <div class="col s12">
+                        <center>Результат:</center>
+                    </div>
+                    <div class="col s12">
+                        {{ rvigenere_result }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
