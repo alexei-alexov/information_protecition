@@ -39,7 +39,7 @@ def additive_cipher(data, key, alph=string.ascii_uppercase, reverse=False):
         return cipherer(data, func)
     else:
         result = []
-        for key in xrange(1, len(alph) + 1):
+        for key in range(1, len(alph) + 1):
             func = lambda c: alph[(a_len + alph.find(c) - key) % a_len] if alph.find(c) != -1 else c
             result.append((key, cipherer(data, func), ) )
         return result
@@ -51,7 +51,7 @@ def multiply_cipher(data, key, alph=string.ascii_uppercase, reverse=False):
         return cipherer(data.upper(), func)
     else:
         result = []
-        for key in xrange(1, len(alph) + 1):
+        for key in range(1, len(alph) + 1):
             try:
                 inv_key1 = find_inverted(key, a_len)
             except:
@@ -69,12 +69,12 @@ def affine_cipher(data, key1, key2, alph=string.ascii_uppercase, reverse=False):
         return cipherer(data, func)
     else:
         result = []
-        for key1 in xrange(1, len(alph) + 1):
+        for key1 in range(1, len(alph) + 1):
             try:
                 inv_key1 = find_inverted(key1, a_len)
             except:
                 continue
-            for key2 in xrange(1, len(alph) + 1):
+            for key2 in range(1, len(alph) + 1):
                 func = lambda c: alph[(inv_key1 * (alph.find(c) - key2)) % a_len] if alph.find(c) != -1 else c
                 result.append( (key1, key2, cipherer(data, func)) )
         return result
@@ -102,7 +102,6 @@ def main():
         result = multiply_cipher(text, key2, reverse=reverse)
     elif cipher_str == AFFINE_CIPHER:
         result = affine_cipher(text, key2, key1, reverse=reverse)
-    print "result: ", result
 
 
 if __name__ == "__main__":

@@ -9,8 +9,8 @@ def input(prompt, default_value, validator):
         if value == '':return default_value
         try:
             return validator(value)
-        except ValueError, err:
-            print err
+        except ValueError as err:
+            print(err)
 
 
 def positive_int_validator(n):
@@ -43,8 +43,8 @@ def range_validator(min, max):
                 return value
             else:
                 raise ValueError("Value is not acceptable")
-        except ValueError, err:
-            raise ValueError(err)
+        except ValueError as err:
+            raise err
         except:
             raise ValueError("Error to parse value")
     return _range_validator

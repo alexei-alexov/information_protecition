@@ -43,6 +43,7 @@ class Playfair(object):
         return re.sub(pattern, replace_pattern, re.sub(pattern, replace_pattern, text))
         
     def encipher_pair(self, a, b):
+        print("encipher pair call. a: ", a, " b: ", b)
         arow, acol = int(self.key.index(a) / 5), self.key.index(a) % 5
         brow, bcol = int(self.key.index(b) / 5), self.key.index(b) % 5
         if arow == brow:
@@ -80,9 +81,12 @@ class Playfair(object):
         try:
             ret = []
             for c in range(0, len(string), 2):
+                print(c, string[c], string[c + 1])
                 ret += self.encipher_pair(string[c], string[c + 1])
+                print (ret, "\n")
             return "".join(ret)
-        except:
+        except Exception as error:
+            print("Exception: ", error)
             return "Error in key? Couldn't find symbol!"
 
     def decipher(self, string):
@@ -104,3 +108,10 @@ class Playfair(object):
             return "".join(ret)
         except:
             return "Error in key? Couldn't find symbol!"
+
+
+if __name__ == "__main__":
+    p = Playfair()
+    result = p.encipher("HELLO")
+    print(result)
+    print(p.decipher(result))

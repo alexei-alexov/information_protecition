@@ -5,7 +5,7 @@ It have menu.
 """
 from flask import Flask, request, render_template
 
-from ciphers import additive_cipher, multiply_cipher, affine_cipher, Playfair, Foursquare
+from ciphers import additive_cipher, multiply_cipher, affine_cipher, Playfair, Foursquare, Vigenere
 
 
 PATH_ROOT = "/"
@@ -49,23 +49,36 @@ PARAMS = (
 )
 
 PARAMS_2 = (
-    ("plaifair_key", None),
+    ("playfair_key", ""),
     ("playfair_data", "TEST STRING"),
     ("playfair_result", None),
 
-    ("rplaifair_key", None),
+    ("rplayfair_key", ""),
     ("rplayfair_data", "TEST STRING"),
     ("rplayfair_result", None),
 
-    ("foursquare_key1", None),
-    ("foursquare_key2", None),
+    ("foursquare_key1", ""),
+    ("foursquare_key2", ""),
     ("foursquare_data", "TEST STRING"),
     ("foursquare_result", None),
 
     ("rfoursquare_data", "TEST STRING"),
-    ("rfoursquare_key1", None),
-    ("rfoursquare_key2", None),
+    ("rfoursquare_key1", ""),
+    ("rfoursquare_key2", ""),
     ("rfoursquare_result", None),
+)
+
+PARAMS_3 = (
+    ("vigenere_key", ""),
+    ("vigenere_alph", ""),
+    ("vigenere_data", "ЗАХИСТ_ІНФОРМАЦІЇ"),
+    ("vigenere_result", None),
+
+    ("rvigenere_key", ""),
+    ("rvigenere_alph", ""),
+    ("rvigenere_data", "ФОЧИВЕБІЯЖРРЮОШІЧ"),
+    ("rvigenere_result", None),
+
 )
 
 
@@ -118,7 +131,7 @@ def lab1_page():
                     1,
                     2,
                     reverse=True)
-        except Exception, err:
+        except Exception as err:
             print(err)
     return render_template('labs/lab1.html', **default_context)
 
@@ -126,37 +139,55 @@ def lab1_page():
 @app.route(PATH_LAB_2, methods=['GET', 'POST'])
 def lab2_page():
     
-    context = {}
+    default_context = {}
     default_context['last_action'] = request.form.get("action", "playfair")
-    for param in PARAMS:
+    for param in PARAMS_2:
         default_context[param[0]] = request.form.get(param[0], param[1])
 
     if request.method == 'POST':
         try:
+            print(default_context)
             if default_context['last_action'] == 'playfair':
-                default_context['additive_result'] = additive_cipher(
-                    default_context['additive_data'],
-                    int(default_context['additive_key']),
-                    reverse=False)
+                p = Playfair(default_context['playfair_key'])
+                default_context['playfair_result'] = p.encipher(default_context['playfair_data'])
             elif default_context['last_action'] == 'rplayfair':
-                default_context['radditive_result'] = additive_cipher(
-                    default_context['radditive_data'],
-                    1,
-                    reverse=True)
+                p = Playfair(default_context['rplayfair_key'])
+                default_context['rplayfair_result'] = p.decipher(default_context['rplayfair_data'])
             elif default_context['last_action'] == 'foursquare':
-                default_context['foursquare_result'] = multiply_cipher(
-                    default_context['foursquare_data'],
-                    int(default_context['foursquare_key']),
-                    reverse=False)
+                f = Foursquare(default_context['foursquare_key1'], default_context['foursquare_key2'])
+                default_context['foursquare_result'] = f.encipher(default_context['foursquare_data'])
             elif default_context['last_action'] == 'rfoursquare':
-                default_context['rfoursquare_result'] = multiply_cipher(
-                    default_context['rfoursquare_data'],
-                    1,
-                    reverse=True)
-        except Exception, err:
-            print(err)
+                f = Foursquare(default_context['rfoursquare_key1'], default_context['rfoursquare_key2'])
+                default_context['rfoursquare_result'] = f.decipher(default_context['rfoursquare_data'])
+            print(default_context)
+        except Exception as err:
+            print("exception: ", err)
 
-    return render_template("labs/lab2.html", **context)
+    return render_template("labs/lab2.html", **default_context)
+
+
+@app.route(PATH_LAB_3, methods=['GET', 'POST'])
+def lab3_page():
+    
+    default_context = {}
+    default_context['last_action'] = request.form.get("action", "vigenere")
+    for param in PARAMS_3:
+        default_context[param[0]] = request.form.get(param[0], param[1])
+
+    if request.method == 'POST':
+        try:
+            print(default_context)
+            if default_context['last_action'] == 'vigenere':
+                v = Vigenere(default_context['vigenere_alph'], default_context['vigenere_key'])
+                default_context['vigenere_result'] = v.encipher(default_context['vigenere_data'])
+            elif default_context['last_action'] == 'rvigenere':
+                v = Vigenere(default_context['rvigenere_alph'], default_context['rvigenere_key'])
+                default_context['rvigenere_result'] = v.decipher(default_context['rvigenere_data'])
+            print(default_context)
+        except Exception as err:
+            print("exception: ", err)
+
+    return render_template("labs/lab3.html", **default_context)
 
 
 app.run(port=8002, debug=True, host='0.0.0.0', threaded=True)

@@ -10,6 +10,7 @@ class Foursquare(object):
     def __init__(self, key1=None, key2=None, symbol=None):
         self.key1 = key1 or 'Ч ВІПОКЙДУГШЗЄФЛЇХА,ЮРЖЩНЦБИТЬ.СЯМЕ'
         self.key2 = key2 or 'ЕЛЦЙП.ХЇАНШДЄКСІ БФУЯТИЧГМО,ЖЬВЩЗЮР'
+        print(self.key1, self.key2)
         self.symbol = symbol or 'Х'
         self.w = 5
         self.h = len(self.key1) // self.w
@@ -23,7 +24,7 @@ class Foursquare(object):
         return self.key2.index(c)%self.w, self.key2.index(c)//self.w
 
     def encipher_pair(self,a,b):
-        # print("pair: ", a, b)
+        print("pair: ", a, b)
         ax, ay = self.get_key1_index(a)
         bx, by = self.get_key2_index(b)
         if ay == by:
@@ -40,8 +41,8 @@ class Foursquare(object):
             return self.key1[ay*self.w+bx] + self.key2[by*self.w+ax]
 
     def encipher(self,string):
-        """Encipher string using Foursquare cipher according to initialised key. Punctuation and whitespace
-        are removed from the input. If the input plaintext is not an even number of characters, an 'X' will be appended.
+        """Encipher string using Foursquare cipher according to initialised key.
+
         Example::
             ciphertext = Foursquare(key1='zgptfoihmuwdrcnykeqaxvsbl',key2='mfnbdcrhsaxyogvituewlqzkp').encipher(plaintext)     
         :param string: The string to encipher.
