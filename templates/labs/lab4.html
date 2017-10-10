@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Лабораторна робота №4. Шифр перестановки.{% endblock title %}
+{% block content %}
+<div class="row">
+    <center>
+    <h2>Лабораторна робота №4</h2>
+    <h3>Шифр перестановки</h3>
+    </center>
+</div>
+<div class="row">
+    <div id="swaper" class="col s12">
+        <div class="row">
+            <div class="col s6 amber lighten-5">
+                <h5 class="center-align">Зашифровування</h5>
+                <form method="POST">
+                    <div class="input-field col s12">
+                        <input id="swaper-key" step="1"  placeholder="3, 1, 4, 5, 2"
+                            name="swaper_key" type="text" class="validate"
+                            value="{{swaper_key}}">
+                        <label for="swaper-key">Ключ</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <textarea id="swaper-data" name="swaper_data" class="materialize-textarea validate">{{swaper_data}}</textarea>
+                        <label for="swaper-data">Текст для шифрування</label>
+                    </div>
+                    <input type="hidden" name="action" value="swaper">
+                    <center>
+                        <input type="submit" class="waves-effect waves-light btn" value="Зашифрувати"/>
+                    </center>
+                </form>
+                {% if swaper_result %}
+                <hr>
+                <div class="row">
+                    <br>
+                    <div class="col s12">
+                        <center>Результат:</center>
+                        <p>{{swaper_result}}</p>
+                    </div>
+                    
+                </div>
+                {% endif %}
+            </div>
+            <div class="col s6 lime lighten-5">
+                <h5 class="center-align">Розшифровування</h5>
+                <form method="POST">
+                <div class="input-field col s12">
+                    <input id="rswaper-key" step="1" placeholder="3, 1, 4, 5, 2"
+                        name="rswaper_key" type="text" class="validate"
+                        value="{{rswaper_key}}">
+                    <label for="rswaper-key">Ключ</label>
+                </div>
+                <div class="input-field col s12">
+                    <textarea id="rswaper-data" name="rswaper_data" class="materialize-textarea validate">{{rswaper_data}}</textarea>
+                    <label for="rswaper-data">Текст для розшифрування</label>
+                </div>
+                <input type="hidden" name="action" value="rswaper">
+                <center>
+                    <input type="submit" class="waves-effect waves-light btn" value="Розшифрувати"/>
+                </center>
+                </form>
+                {% if rswaper_result %}
+                <hr>
+                <div class="row">
+                    <br>
+                    <div class="col s12">
+                        <center>Результат:</center>
+                    </div>
+                    <div class="col s12">
+                        {{ rswaper_result }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,13 +1,23 @@
+import re
+
 
 class Swaper(object):
 
     def __init__(self, key=[3, 1, 4, 5, 2]):
+        if isinstance(key, str):
+            key = self._parse_key(key)
+        
         key = [k - 1 for k in key]
         for n, i in enumerate(sorted(key)):
             if n != i:
                 raise ValueError("Wrong key! {}".format(key))
         self.key = key
         self.l = len(key)
+
+    def _parse_key(self, data):
+        pat = re.compile("[\D]*")
+        print(pat.split(data))
+        return [int(i) for i in pat.split(data)]
 
     def _encode_block(self, block):
         new_block = []
