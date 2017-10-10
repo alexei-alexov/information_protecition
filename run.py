@@ -13,6 +13,7 @@ PATH_LAB = "/lab/"
 PATH_LAB_1 = PATH_LAB + "1"
 PATH_LAB_2 = PATH_LAB + "2"
 PATH_LAB_3 = PATH_LAB + "3"
+PATH_LAB_4 = PATH_LAB + "4"
 
 PARAMS = (
     
@@ -37,6 +38,14 @@ PARAMS = (
 
     ("raffine_data", "TEST STRING"),
     ("raffine_result", None),
+
+    ("swaper_key", "3, 1, 4, 5, 2"),
+    ("swaper_data", "TEST STRING"),
+    ("swaper_result", None),
+
+    ("rswaper_key", "3, 1, 4, 5, 2"),
+    ("rswaper_data", "TEST STRING"),
+    ("rswaper_result", None),
 )
 
 PARAMS_2 = (
