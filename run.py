@@ -171,9 +171,15 @@ def lab3_page():
             if default_context['last_action'] == 'vigenere':
                 v = Vigenere(default_context['vigenere_alph'], default_context['vigenere_key'])
                 default_context['vigenere_result'] = v.encipher(default_context['vigenere_data'])
+                default_context['last_pattern'] = v.last_pattern
+                default_context['alph'] = v.alph
+                default_context['sep'] = "*" * len(v.last_pattern)
             elif default_context['last_action'] == 'rvigenere':
                 v = Vigenere(default_context['rvigenere_alph'], default_context['rvigenere_key'])
                 default_context['rvigenere_result'] = v.decipher(default_context['rvigenere_data'])
+                default_context['last_pattern'] = v.last_pattern
+                default_context['alph'] = v.alph
+                default_context['sep'] = "*" * len(v.last_pattern)
             print(default_context)
         except Exception as err:
             print("exception: ", err)

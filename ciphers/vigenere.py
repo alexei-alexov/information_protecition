@@ -7,6 +7,8 @@ class Vigenere(object):
     :param key: The keyword, any word or phrase will do. Must consist of alphabetical characters only, no punctuation of numbers.        
     """
     alph = "АБВГДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ_"
+    last_pattern = ""
+
 
     def __init__(self,alph="", key=""):
         self.key = (key or 'МОВА').upper()
@@ -27,10 +29,12 @@ class Vigenere(object):
 
         key_index = 0
         
+        last_pattern = []
         for symbol in string:
             try:
                 
                 num = self.alph.index(symbol) + self.alph.index(self.key[key_index])
+                last_pattern.append(self.key[key_index])
                 num %= len(self.alph)
                 translated.append(self.alph[num])
                 print(symbol, num)
@@ -39,6 +43,8 @@ class Vigenere(object):
                     key_index = 0
             except:
                 translated.append(symbol)
+
+        self.last_pattern = "".join(last_pattern)
         return "".join(translated)
 
     def decipher(self,string):
@@ -54,10 +60,12 @@ class Vigenere(object):
         translated = []
 
         key_index = 0
-        
+
+        last_pattern = []        
         for symbol in string:
             try:
                 num = self.alph.index(symbol) - self.alph.index(self.key[key_index])
+                last_pattern.append(self.key[key_index])
                 num %= len(self.alph)
                 translated.append(self.alph[num])
                 key_index += 1
@@ -65,6 +73,7 @@ class Vigenere(object):
                     key_index = 0
             except:
                 translated.append(symbol)
+        self.last_pattern = "".join(last_pattern)
         return "".join(translated)
 
 

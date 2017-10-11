@@ -38,9 +38,17 @@
                 <hr>
                 <div class="row">
                     <br>
-                    <div class="col s12">
+                    <div class="col s12" style="font-family: monospace;">
+                        <p>Алфавіт:</p>
+                        <p>{{alph}}</p>
                         <center>Результат:</center>
-                        <p>{{vigenere_result}}</p>
+                        {{vigenere_data}}
+                        <br>
+                        {{last_pattern}}
+                        <br>
+                        {{sep}}
+                        <br>
+                        {{vigenere_result}}
                     </div>
                     
                 </div>
@@ -74,12 +82,19 @@
                 <hr>
                 <div class="row">
                     <br>
-                    <div class="col s12">
+                    <div class="col s12" style="font-family: monospace;">
+                        <p>Алфавіт:</p>
+                        <p>{{alph}}</p>
                         <center>Результат:</center>
-                    </div>
-                    <div class="col s12">
+                        {{ rvigenere_data }}
+                        <br>
+                        {{last_pattern}}
+                        <br>
+                        {{sep}}
+                        <br>
                         {{ rvigenere_result }}
                     </div>
+
                 </div>
                 {% endif %}
             </div>
