@@ -5,7 +5,7 @@ It have menu.
 """
 from flask import Flask, request, render_template
 
-from ciphers import additive_cipher, multiply_cipher, affine_cipher, Playfair, Foursquare, Vigenere
+from ciphers import additive_cipher, multiply_cipher, affine_cipher, Playfair, Foursquare, Vigenere, Swaper
 
 
 PATH_ROOT = "/"
@@ -13,6 +13,7 @@ PATH_LAB = "/lab/"
 PATH_LAB_1 = PATH_LAB + "1"
 PATH_LAB_2 = PATH_LAB + "2"
 PATH_LAB_3 = PATH_LAB + "3"
+PATH_LAB_4 = PATH_LAB + "4"
 
 PARAMS = (
     
@@ -70,6 +71,16 @@ PARAMS_3 = (
     ("rvigenere_data", "ФОЧИВЕБІЯЖРРЮОШІЧ"),
     ("rvigenere_result", None),
 
+)
+
+PARAMS_4 = (
+    ("swaper_key", "3, 1, 4, 5, 2"),
+    ("swaper_data", "ENEMYATTACKSTONIGHT"),
+    ("swaper_result", None),
+
+    ("rswaper_key", "3, 1, 4, 5, 2"),
+    ("rswaper_data", "ETTHEAKIMAOTYCNXNTSG"),
+    ("rswaper_result", None),
 )
 
 
@@ -185,6 +196,30 @@ def lab3_page():
             print("exception: ", err)
 
     return render_template("labs/lab3.html", **default_context)
+
+
+@app.route(PATH_LAB_4, methods=['GET', 'POST'])
+def lab4_page():
+    
+    default_context = {}
+    default_context['last_action'] = request.form.get("action", "swaper")
+    for param in PARAMS_4:
+        default_context[param[0]] = request.form.get(param[0], param[1])
+
+    if request.method == 'POST':
+        try:
+            print(default_context)
+            if default_context['last_action'] == 'swaper':
+                v = Swaper(default_context['swaper_key'])
+                default_context['swaper_result'] = v.encode_data(default_context['swaper_data'])
+            elif default_context['last_action'] == 'rswaper':
+                v = Swaper(default_context['rswaper_key'])
+                default_context['rswaper_result'] = v.decode_data(default_context['rswaper_data'])
+            print(default_context)
+        except Exception as err:
+            print("exception: ", err)
+
+    return render_template("labs/lab4.html", **default_context)
 
 
 app.run(port=8002, debug=True, host='0.0.0.0', threaded=True)
