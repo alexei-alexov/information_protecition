@@ -14,6 +14,8 @@ PATH_LAB_1 = PATH_LAB + "1"
 PATH_LAB_2 = PATH_LAB + "2"
 PATH_LAB_3 = PATH_LAB + "3"
 PATH_LAB_4 = PATH_LAB + "4"
+PATH_LAB_6 = PATH_LAB + "6"
+
 
 PARAMS = (
     
@@ -215,5 +217,23 @@ def lab4_page():
 
     return render_template("labs/lab4.html", **default_context)
 
+
+@app.route(PATH_LAB_6, methods=['GET', 'POST'])
+def lab6_page():
+    
+    default_context = {}
+    
+    if request.method == 'POST':
+        try:
+            if default_context['last_action'] == 'swaper':
+                v = Swaper(default_context['swaper_key'])
+                default_context['swaper_result'] = v.encode_data(default_context['swaper_data'])
+            elif default_context['last_action'] == 'rswaper':
+                v = Swaper(default_context['rswaper_key'])
+                default_context['rswaper_result'] = v.decode_data(default_context['rswaper_data'])
+        except Exception as err:
+            print("exception: ", err)
+
+    return render_template("labs/lab6.html", **default_context)
 
 app.run(port=8002, debug=True, host='0.0.0.0', threaded=True)

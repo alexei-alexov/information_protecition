@@ -2,7 +2,7 @@
 import hashlib
 import random
 
-from primer import get_prime
+from ciphers.primer import get_prime
 
 
 def generate_key(size=6):
@@ -55,7 +55,7 @@ class ElGamal(object):
         return b
 
     def sign(self, payload):
-        self.payload_hash = get_hash(payload, p)
+        self.payload_hash = get_hash(payload, self.p)
         # print("hash: {}".format(self.payload_hash))
 
         p_dec = self.p - 1
