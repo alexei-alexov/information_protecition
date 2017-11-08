@@ -134,7 +134,7 @@ def lab1_page():
                     2,
                     reverse=True)
         except Exception as err:
-            print(err)
+            print("exception: ", err)
     return render_template('labs/lab1.html', **default_context)
 
 
@@ -148,7 +148,6 @@ def lab2_page():
 
     if request.method == 'POST':
         try:
-            print(default_context)
             if default_context['last_action'] == 'playfair':
                 p = Playfair(default_context['playfair_key'])
                 default_context['playfair_result'] = p.encipher(default_context['playfair_data'])
@@ -161,7 +160,6 @@ def lab2_page():
             elif default_context['last_action'] == 'rfoursquare':
                 f = Foursquare(default_context['rfoursquare_key1'], default_context['rfoursquare_key2'])
                 default_context['rfoursquare_result'] = f.decipher(default_context['rfoursquare_data'])
-            print(default_context)
         except Exception as err:
             print("exception: ", err)
 
@@ -178,7 +176,6 @@ def lab3_page():
 
     if request.method == 'POST':
         try:
-            print(default_context)
             if default_context['last_action'] == 'vigenere':
                 v = Vigenere(default_context['vigenere_alph'], default_context['vigenere_key'])
                 default_context['vigenere_result'] = v.encipher(default_context['vigenere_data'])
@@ -191,7 +188,6 @@ def lab3_page():
                 default_context['last_pattern'] = v.last_pattern
                 default_context['alph'] = v.alph
                 default_context['sep'] = "*" * len(v.last_pattern)
-            print(default_context)
         except Exception as err:
             print("exception: ", err)
 
@@ -208,14 +204,12 @@ def lab4_page():
 
     if request.method == 'POST':
         try:
-            print(default_context)
             if default_context['last_action'] == 'swaper':
                 v = Swaper(default_context['swaper_key'])
                 default_context['swaper_result'] = v.encode_data(default_context['swaper_data'])
             elif default_context['last_action'] == 'rswaper':
                 v = Swaper(default_context['rswaper_key'])
                 default_context['rswaper_result'] = v.decode_data(default_context['rswaper_data'])
-            print(default_context)
         except Exception as err:
             print("exception: ", err)
 
