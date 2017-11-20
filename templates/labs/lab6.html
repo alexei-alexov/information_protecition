@@ -4,25 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Лабараторна робота №6. Алгоритм Ель-Гамаля.</title>
+    <title>Лабораторна робота №6. Алгоритм Ель-Гамаля.</title>
 </head>
 <body>
-
-    <form action="" method="post">
-        <label for=""></label>
-        <input type="number" name="" id="el-gamal-file">
-        <label for=""></label>
-        <input type="number" name="" id="el-gamal-p">
-        <label for=""></label>
-        <input type="file" name="" id="el-gamal-g">
-        <label for=""></label>
-        
-        <input type="number" name="" id="">
-        <label for=""></label>
-        <input type="number" name="" id="">
-        <label for=""></label>
-        <input type="number" name="" id="">
-
-    </form>
+    <center>
+    {% if error %}
+        <p style='color:red'>{{error}}</p>
+    {% endif %}
+    {% if success %}
+        <p style='color:green'>Підпис справжній!</p>
+    {% endif %}
+    <div>
+        <h2>Підпис документів</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div>
+                <label for="">Ключ для підпису:</label><br>
+                <input type="file" name="el-gamal-sign">
+            </div>
+            <div>
+                <label for="">Документ:</label><br>
+                <input type="file" name="el-gamal-document">
+            </div>
+            <input type="hidden" name="action" value="sign">
+            <input type="submit" value="Створити підпис">
+        </form>
+    </div>
+    <hr>
+    <div>
+        <h2>Перевірка підпису</h2>
+        <form method="post" enctype="multipart/form-data">
+            <div>
+                <label for="">Підпис:</label><br>
+                <input type="file" name="el-gamal-sign">
+            </div>
+            <div>
+                <label for="">Документ:</label><br>
+                <input type="file" name="el-gamal-document">
+            </div>
+            <input type="hidden" name="action" value="check">
+            <input type="submit" value="Перевірити підпис">
+        </form>
+    </div>
+    <hr>
+    <div>
+        <h2>Створення ключів</h2>
+        <form method="post">
+            <div>Згенерувати ключ.</div>
+            <input type="hidden" name="action" value="generate">
+            <input type="submit" value="Згенерувати ключ">
+        </form>
+    </div>
+</center>
 </body>
 </html>

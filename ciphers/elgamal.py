@@ -2,7 +2,7 @@
 import hashlib
 import random
 
-from primer import get_prime
+from ciphers.primer import get_prime
 
 
 def generate_key(size=6):
@@ -24,7 +24,10 @@ def is_relatively_prime(a, b):
 def get_hash(payload, p):
     """Return hash of give payload"""
     hasher = hashlib.md5()
-    hasher.update(payload.encode())
+    if isinstance(payload, bytes):
+        hasher.update(payload)
+    else:
+        hasher.update(payload.encode())
     return int(hasher.hexdigest(), 16) % p
 
 
@@ -55,7 +58,7 @@ class ElGamal(object):
         return b
 
     def sign(self, payload):
-        self.payload_hash = get_hash(payload, p)
+        self.payload_hash = get_hash(payload, self.p)
         # print("hash: {}".format(self.payload_hash))
 
         p_dec = self.p - 1

@@ -3,9 +3,15 @@
 This module is all programs entrance.
 It have menu.
 """
-from flask import Flask, request, render_template
+import tempfile
+import uuid
 
-from ciphers import additive_cipher, multiply_cipher, affine_cipher, Playfair, Foursquare, Vigenere, Swaper
+from flask import Flask, request, render_template, send_file
+
+from ciphers import (additive_cipher, multiply_cipher,
+                     affine_cipher, Playfair,
+                     Foursquare, Vigenere, Swaper,
+                     ElGamal, check_sign, generate_key)
 
 
 PATH_ROOT = "/"
@@ -14,6 +20,7 @@ PATH_LAB_1 = PATH_LAB + "1"
 PATH_LAB_2 = PATH_LAB + "2"
 PATH_LAB_3 = PATH_LAB + "3"
 PATH_LAB_4 = PATH_LAB + "4"
+PATH_LAB_6 = PATH_LAB + "6"
 
 PARAMS = (
     
@@ -215,5 +222,60 @@ def lab4_page():
 
     return render_template("labs/lab4.html", **default_context)
 
+
+EL_DOCUMENT = "el-gamal-document"
+EL_SIGN = "el-gamal-sign"
+EL_ACTION = "action"
+EL_ERROR = "error"
+EL_SUCCESS = "success"
+
+EL_ACTION_TYPE_SIGN = 'sign'
+EL_ACTION_TYPE_CHECK = 'check'
+EL_ACTION_TYPE_GEN = 'generate'
+
+@app.route(PATH_LAB_6, methods=['GET', 'POST'])
+def lab6_page():
+
+    context = {}
+    if request.method == 'POST':
+        try:
+            
+            action = request.form.get(EL_ACTION, EL_ACTION_TYPE_SIGN)
+            document = request.files.get(EL_DOCUMENT, None)
+            key = request.files.get(EL_SIGN, None)
+            
+            if action == EL_ACTION_TYPE_GEN:
+                p = str(uuid.uuid4()) + '.txt'
+                f = open(p, 'w')
+                print(f, p)
+                f.write("%s\n%s\n%s\n%s" % (*generate_key(), ))
+                f.close()
+                return send_file(p, as_attachment=True)
+            
+            print(action)
+            if not document or not key:
+                context[EL_ERROR] = "Відсутні потрібні файли!"
+            else:
+                if action == EL_ACTION_TYPE_SIGN:
+                    
+                    p, g, x, y = (int(line) for line in key.readlines())
+                    print(p, g, x, y)
+                    (a, b) = ElGamal(p, g, x, y).sign(document.read())
+                    path = str(uuid.uuid4()) + '.txt'
+                    f = open(path, 'w')
+                    f.write("%s\n%s\n%s\n%s\n%s" % (a, b, p, g, y, ))
+                    f.close()
+                    return send_file(path, as_attachment=True)
+                else:
+                    a, b, p, g, y = (int(line) for line in key.readlines())
+                    if check_sign(document.read(), a, b, p, g, y):
+                        context[EL_SUCCESS] = True
+                    else:
+                        context[EL_ERROR] = "Не правильний підпис!"
+
+
+        except Exception as err:
+            print("Exception: %s" % (err, ))
+    return render_template("labs/lab6.html", **context)
 
 app.run(port=8002, debug=True, host='0.0.0.0', threaded=True)
