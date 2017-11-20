@@ -6,3 +6,4 @@ from ciphers.swaper import Swaper
 from ciphers.elgamal import ElGamal, check_sign, generate_key
 
 import ciphers.rsa as rsa
+import ciphers.elgamal as elgamal
